@@ -16,14 +16,14 @@
         Username:
         <input
           type="text"
-          v-model="credentials.username"
+          v-model="loginCreds.email"
         >
       </label>
       <label for="">
         Password:
         <input
           type="password"
-          v-model="credentials.password"
+          v-model="loginCreds.password"
         >
       </label>
       <button @click="login">Login</button>
@@ -33,11 +33,13 @@
       <label for="">
         Email:
         <input type="text"
+        v-model="signupCreds.email"
         >
       </label>
       <label for="">
         Password:
-        <input type="text">
+        <input type="text"
+        v-model="signupCreds.password">
       </label>
       <button @click="signup">Sign Me Up!</button>
     </form>
@@ -56,8 +58,12 @@ export default {
   data() {
     return {
       auth: null,
-      credentials: {
-        username: null,
+      loginCreds: {
+        email: null,
+        password: null
+      },
+      signupCreds: {
+        email: null,
         password: null
       }
     };
@@ -68,18 +74,20 @@ export default {
   methods: {
     ...mapActions("auth", ["attemptLogin", "attemptSignUp", "addNotification"]),
     signup() {
-      this.attemptSignUp(this.credentials).then(() => {
-        this.addNotification({
-          title: "Sign Up",
-          text:
-            "You have successfully signed up. Check your email to confirm your account.",
-          type: "success"
-        });
-        console.log("a confirmation email has been sent to you!");
-      });
+      this.attemptSignUp(this.signupCreds)
+        .then(() => {
+          this.addNotification({
+            title: "Sign Up",
+            text:
+              "You have successfully signed up. Check your email to confirm your account.",
+            type: "success"
+          });
+          console.log("a confirmation email has been sent to you!");
+        })
+        .catch(err => console.log(err));
     },
     login() {
-      this.attemptLogin(this.credentials)
+      this.attemptLogin(this.loginCreds)
         .then(() => {
           this.addNotification({
             title: "Log In",

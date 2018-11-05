@@ -6,7 +6,7 @@ const init = () => {
 
 const attemptLogin = ({ commit }, credentials) => {
   auth
-    .login(credentials)
+    .login(credentials.email, credentials.password)
     .then(response => {
       alert("Success! Response: " + JSON.stringify({ response }));
       commit("LOGIN");
@@ -16,8 +16,9 @@ const attemptLogin = ({ commit }, credentials) => {
 };
 
 const attemptSignUp = ({ commit }, credentials) => {
+  console.log(credentials);
   auth
-    .signup(credentials)
+    .signup(credentials.email, credentials.password)
     .then(response => {
       console.log("Confirmation email sent", response);
       commit("LOGIN");
