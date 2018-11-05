@@ -1,23 +1,43 @@
+import { auth } from "./state";
+
+const init = () => {
+  //
+};
+
 const attemptLogin = ({ commit }, credentials) => {
-  let didTimeout = true;
-  return new Promise((resolve, reject) => {
-    commit("TOGGLE_LOAD");
-    const timeout1 = setTimeout(() => {
+  auth
+    .login(credentials)
+    .then(response => {
+      alert("Success! Response: " + JSON.stringify({ response }));
       commit("LOGIN");
-      commit("TOGGLE_LOAD", credentials);
-      didTimeout = false;
-      resolve();
-    }, 1000);
-    setTimeout(() => {
-      if (didTimeout) {
-        reject();
-      }
-      didTimeout = false;
-      clearTimeout(timeout1);
-    }, 3000);
-  });
+      commit("TOGGLE_LOAD");
+    })
+    .catch(error => alert("Failed :( " + JSON.stringify(error)));
+};
+
+const attemptSignUp = ({ commit }, credentials) => {
+  auth
+    .signup(credentials)
+    .then(response => {
+      console.log("Confirmation email sent", response);
+      commit("LOGIN");
+      commit("TOGGLE_LOAD");
+    })
+    .catch(error => console.log("It's an error", error));
+};
+
+const addNotification = ({ commit }, notification) => {
+  commit("ADD_NOTIFICATION", notification);
+};
+
+const removeNotification = ({ commit }, notification) => {
+  commit("REMOVE_NOTIFICATION", notification);
 };
 
 export default {
-  attemptLogin
+  init,
+  attemptSignUp,
+  attemptLogin,
+  addNotification,
+  removeNotification
 };
