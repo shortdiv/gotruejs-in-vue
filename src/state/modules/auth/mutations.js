@@ -3,6 +3,11 @@ const LOGIN = state => {
   state.token = true;
 };
 
+const LOGOUT = state => {
+  state.loggedIn = false;
+  state.token = false;
+};
+
 const TOGGLE_LOAD = state => {
   state.loading = !state.loading;
 };
@@ -17,6 +22,7 @@ const REMOVE_NOTIFICATION = (state, notification) => {
 
 export default {
   LOGIN,
+  LOGOUT,
   TOGGLE_LOAD,
   ADD_NOTIFICATION,
   REMOVE_NOTIFICATION

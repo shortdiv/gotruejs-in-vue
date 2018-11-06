@@ -16,7 +16,6 @@ const attemptLogin = ({ commit }, credentials) => {
 };
 
 const attemptSignUp = ({ commit }, credentials) => {
-  console.log(credentials);
   auth
     .signup(credentials.email, credentials.password)
     .then(response => {
@@ -25,6 +24,17 @@ const attemptSignUp = ({ commit }, credentials) => {
       commit("TOGGLE_LOAD");
     })
     .catch(error => console.log("It's an error", error));
+};
+
+const attemptLogout = ({ commit }) => {
+  const user = auth.currentUser();
+  user
+    .logout()
+    .then(response => {
+      console.log("user has logged out", response);
+      commit("LOGOUT");
+    })
+    .catch(error => console.log("Could not log out", error));
 };
 
 const addNotification = ({ commit }, notification) => {
@@ -39,6 +49,7 @@ export default {
   init,
   attemptSignUp,
   attemptLogin,
+  attemptLogout,
   addNotification,
   removeNotification
 };
