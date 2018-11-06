@@ -5,7 +5,7 @@ const init = () => {
 };
 
 const attemptLogin = ({ commit }, credentials) => {
-  auth
+  return auth
     .login(credentials.email, credentials.password)
     .then(response => {
       alert("Success! Response: " + JSON.stringify({ response }));
@@ -15,8 +15,25 @@ const attemptLogin = ({ commit }, credentials) => {
     .catch(error => alert("Failed :( " + JSON.stringify(error)));
 };
 
+const attemptConfirmation = ({ commit }, token) => {
+  return auth
+    .confirm(token)
+    .then(response => {
+      console.log(
+        "Confirmation email sent",
+        JSON.stringify({
+          response
+        })
+      );
+      commit("yay");
+    })
+    .catch(function(e) {
+      console.log(e);
+    });
+};
+
 const attemptSignUp = ({ commit }, credentials) => {
-  auth
+  return auth
     .signup(credentials.email, credentials.password)
     .then(response => {
       console.log("Confirmation email sent", response);
@@ -28,7 +45,7 @@ const attemptSignUp = ({ commit }, credentials) => {
 
 const attemptLogout = ({ commit }) => {
   const user = auth.currentUser();
-  user
+  return user
     .logout()
     .then(response => {
       console.log("user has logged out", response);
@@ -48,6 +65,7 @@ const removeNotification = ({ commit }, notification) => {
 export default {
   init,
   attemptSignUp,
+  attemptConfirmation,
   attemptLogin,
   attemptLogout,
   addNotification,
