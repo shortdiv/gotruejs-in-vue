@@ -26,7 +26,7 @@
           v-model="loginCreds.password"
         >
       </label>
-      <button @click="login">Login</button>
+      <button type="submit">Login</button>
     </form>
     <h1>Sign Up:</h1>
     <form @submit.prevent="signup()">
@@ -41,7 +41,7 @@
         <input type="text"
         v-model="signupCreds.password">
       </label>
-      <button @click="signup">Sign Me Up!</button>
+      <button type="submit">Sign Me Up!</button>
     </form>
   </div>
 </template>
