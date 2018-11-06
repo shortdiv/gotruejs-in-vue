@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>This is a dashboard</h1>
     <button @click="logout">Log me out</button>
   </div>
 </template>
