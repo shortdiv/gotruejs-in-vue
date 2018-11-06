@@ -89,14 +89,27 @@ export default {
     login() {
       this.attemptLogin(this.loginCreds)
         .then(() => {
-          this.addNotification({
-            title: "Log In",
-            text: "You have successfully logged in.",
-            type: "success"
-          });
-          //this.transferToDashboard();
+          //grab token//
+          const token = window.location.search
+            .substring(1)
+            .split("confirmation_token=")[1];
+          if (token) {
+            const decodedToken = decodeURIComponent(token);
+            this.attemptConfirmation(decodedToken).then(() => {
+              this.handleSuccessfulLogin();
+            });
+          }
+          this.handleSuccessfulLogin();
         })
         .catch(err => console.log(err));
+    },
+    handleSuccessfulLogin() {
+      this.transferToDashboard();
+      this.addNotification({
+        title: "Log In",
+        text: "You have successfully logged in.",
+        type: "success"
+      });
     },
     transferToDashboard() {
       this.$router.push(this.$route.query.redirect || "/");

@@ -16,11 +16,16 @@ const ADD_NOTIFICATION = (state, notification) => {
   state.notifications.push(notification);
 };
 
+const YAY = () => {
+  console.log("yay");
+};
+
 const REMOVE_NOTIFICATION = (state, notification) => {
   state.notifications.splice(state.notifications.indexOf(notification), 1);
 };
 
 export default {
+  YAY,
   LOGIN,
   LOGOUT,
   TOGGLE_LOAD,
