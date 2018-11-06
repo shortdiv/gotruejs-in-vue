@@ -11,7 +11,8 @@
     "gotrue-js": "^0.9.22",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack": "^4.25.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
