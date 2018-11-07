@@ -5,42 +5,57 @@ const init = () => {
 };
 
 const attemptLogin = ({ commit }, credentials) => {
-  return auth
-    .login(credentials.email, credentials.password)
-    .then(response => {
-      alert("Success! Response: " + JSON.stringify({ response }));
-      commit("LOGIN");
-      commit("TOGGLE_LOAD");
-    })
-    .catch(error => alert("Failed :( " + JSON.stringify(error)));
+  return new Promise((resolve, reject) => {
+    auth
+      .login(credentials.email, credentials.password)
+      .then(response => {
+        resolve("success");
+        alert("Success! Response: " + JSON.stringify({ response }));
+        commit("LOGIN");
+        commit("TOGGLE_LOAD");
+      })
+      .catch(error => {
+        reject(error.json);
+      });
+  });
 };
 
 const attemptConfirmation = ({ commit }, token) => {
-  return auth
-    .confirm(token)
-    .then(response => {
-      console.log(
-        "Confirmation email sent",
-        JSON.stringify({
-          response
-        })
-      );
-      commit("yay");
-    })
-    .catch(function(e) {
-      console.log(e);
-    });
+  return new Promise((resolve, reject) => {
+    auth
+      .confirm(token)
+      .then(response => {
+        resolve("yay");
+        console.log(
+          "Confirmation email sent",
+          JSON.stringify({
+            response
+          })
+        );
+        commit("yay");
+      })
+      .catch(error => {
+        reject(error);
+        console.log(error);
+      });
+  });
 };
 
 const attemptSignUp = ({ commit }, credentials) => {
-  return auth
-    .signup(credentials.email, credentials.password)
-    .then(response => {
-      console.log("Confirmation email sent", response);
-      commit("LOGIN");
-      commit("TOGGLE_LOAD");
-    })
-    .catch(error => console.log("It's an error", error));
+  return new Promise((resolve, reject) => {
+    auth
+      .signup(credentials.email, credentials.password)
+      .then(response => {
+        resolve("yay");
+        console.log("Confirmation email sent", response);
+        commit("LOGIN");
+        commit("TOGGLE_LOAD");
+      })
+      .catch(error => {
+        reject(error);
+        console.log("It's an error", error);
+      });
+  });
 };
 
 const attemptLogout = ({ commit }) => {

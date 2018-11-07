@@ -32,14 +32,16 @@
     <form @submit.prevent="signup()">
       <label for="">
         Email:
-        <input type="text"
-        v-model="signupCreds.email"
+        <input
+          type="text"
+          v-model="signupCreds.email"
         >
       </label>
       <label for="">
         Password:
-        <input type="text"
-        v-model="signupCreds.password">
+        <input
+          type="password"
+          v-model="signupCreds.password">
       </label>
       <button type="submit">Sign Me Up!</button>
     </form>
@@ -84,24 +86,36 @@ export default {
           });
           console.log("a confirmation email has been sent to you!");
         })
-        .catch(err => console.log(err));
+        .catch(err => this.handleUnsuccessfulLogin(err));
     },
     login() {
       this.attemptLogin(this.loginCreds)
         .then(() => {
-          //grab token//
-          const token = window.location.search
-            .substring(1)
-            .split("confirmation_token=")[1];
-          if (token) {
-            const decodedToken = decodeURIComponent(token);
-            this.attemptConfirmation(decodedToken).then(() => {
-              this.handleSuccessfulLogin();
-            });
-          }
           this.handleSuccessfulLogin();
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err.error_description);
+          debugger;
+          if (err.error_description.toLowerCase() === "email not confirmed") {
+            //grab token//
+            const token = decodeURIComponent(window.location.search)
+              .substring(1)
+              .split("confirmation_token=")[1];
+            this.handleConfirmation(token);
+          } else {
+            this.handleUnsuccessfulLogin(err);
+          }
+        });
+    },
+    handleConfirmation(token) {
+      if (token) {
+        const decodedToken = decodeURIComponent(token);
+        this.attemptConfirmation(decodedToken)
+          .then(() => {
+            this.login();
+          })
+          .catch(err => console.log(err));
+      }
     },
     handleSuccessfulLogin() {
       this.transferToDashboard();
@@ -109,6 +123,13 @@ export default {
         title: "Log In",
         text: "You have successfully logged in.",
         type: "success"
+      });
+    },
+    handleUnsuccessfulLogin(err) {
+      this.addNotification({
+        title: "Oops! Looks like something is wrong!",
+        text: err,
+        type: "fail"
       });
     },
     transferToDashboard() {
