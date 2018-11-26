@@ -1,47 +1,36 @@
 <template>
   <div>
     <template v-if="notifications.length > 0">
-    <transition-group name="notification-list" tag="div" class="notifications" appear>
+      <transition-group name="notification-list" tag="div" class="notifications" appear>
         <notification
-            appear
-            v-for="(notification, idx) in notifications"
-            :key="idx"
-            :notification="notification">
-        </notification>
-    </transition-group>
+          appear
+          v-for="(notification, idx) in notifications"
+          :key="idx"
+          :notification="notification"
+        ></notification>
+      </transition-group>
     </template>
     <h1>Log In:</h1>
     <form @submit.prevent="login()">
-      <label for="">
+      <label for>
         Username:
-        <input
-          type="text"
-          v-model="loginCreds.email"
-        >
+        <input type="text" v-model="loginCreds.email">
       </label>
-      <label for="">
+      <label for>
         Password:
-        <input
-          type="password"
-          v-model="loginCreds.password"
-        >
+        <input type="password" v-model="loginCreds.password">
       </label>
       <button type="submit">Login</button>
     </form>
     <h1>Sign Up:</h1>
     <form @submit.prevent="signup()">
-      <label for="">
+      <label for>
         Email:
-        <input
-          type="text"
-          v-model="signupCreds.email"
-        >
+        <input type="text" v-model="signupCreds.email">
       </label>
-      <label for="">
+      <label for>
         Password:
-        <input
-          type="password"
-          v-model="signupCreds.password">
+        <input type="password" v-model="signupCreds.password">
       </label>
       <button type="submit">Sign Me Up!</button>
     </form>
@@ -92,6 +81,7 @@ export default {
       let token = decodeURIComponent(window.location.search)
         .substring(1)
         .split("confirmation_token=")[1];
+      debugger;
       this.attemptLogin({ token, ...this.loginCreds })
         .then(() => {
           this.handleSuccessfulLogin();
