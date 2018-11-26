@@ -89,32 +89,16 @@ export default {
         .catch(err => this.handleUnsuccessfulLogin(err));
     },
     login() {
-      this.attemptLogin(this.loginCreds)
+      let token = decodeURIComponent(window.location.search)
+        .substring(1)
+        .split("confirmation_token=")[1];
+      this.attemptLogin({ token, ...this.loginCreds })
         .then(() => {
           this.handleSuccessfulLogin();
         })
         .catch(err => {
-          console.log(err.error_description);
-          if (err.error_description.toLowerCase() === "email not confirmed") {
-            //grab token//
-            let token = decodeURIComponent(window.location.search)
-              .substring(1)
-              .split("confirmation_token=")[1];
-            debugger;
-            if (token) {
-              this.handleConfirmation(token);
-            }
-          } else {
-            this.handleUnsuccessfulLogin(err);
-          }
+          this.handleUnsuccessfulLogin(err);
         });
-    },
-    handleConfirmation(token) {
-      this.attemptConfirmation(token)
-        .then(() => {
-          this.login();
-        })
-        .catch(err => console.log(err));
     },
     handleSuccessfulLogin() {
       this.transferToDashboard();
