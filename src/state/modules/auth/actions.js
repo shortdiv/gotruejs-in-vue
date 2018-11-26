@@ -9,8 +9,9 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
     auth
       .login(credentials.email, credentials.password)
       .then(response => {
+        console.log(response);
         resolve("success");
-        alert("Success! Response: " + JSON.stringify({ response }));
+        //alert("Success! Response: " + JSON.stringify({ response }));
         commit("LOGIN");
         commit("TOGGLE_LOAD");
       })
@@ -18,7 +19,7 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
         if (
           error.json.error_description.toLowerCase() === "email not confirmed"
         ) {
-          dispatch("attemptConfirmation", credentials.token);
+          dispatch("attemptConfirmation", credentials);
         } else {
           reject(error.json);
         }
@@ -26,11 +27,12 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
   });
 };
 
-const attemptConfirmation = ({ commit }, token) => {
+const attemptConfirmation = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
     auth
-      .confirm(token)
+      .confirm(credentials.token)
       .then(response => {
+        dispatch("attemptLogin", credentials);
         resolve("yay");
         console.log(
           "Confirmation email sent",
@@ -38,7 +40,7 @@ const attemptConfirmation = ({ commit }, token) => {
             response
           })
         );
-        commit("yay");
+        commit("YAY");
       })
       .catch(error => {
         reject(error);
