@@ -4,7 +4,7 @@ const init = () => {
   //
 };
 
-const attemptLogin = ({ commit }, credentials) => {
+const attemptLogin = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
     auth
       .login(credentials.email, credentials.password)
@@ -15,7 +15,13 @@ const attemptLogin = ({ commit }, credentials) => {
         commit("TOGGLE_LOAD");
       })
       .catch(error => {
-        reject(error.json);
+        if (
+          error.json.error_description.toLowerCase() === "email not confirmed"
+        ) {
+          dispatch("attemptConfirmation", credentials.token);
+        } else {
+          reject(error.json);
+        }
       });
   });
 };
