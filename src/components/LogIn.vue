@@ -95,27 +95,26 @@ export default {
         })
         .catch(err => {
           console.log(err.error_description);
-          debugger;
           if (err.error_description.toLowerCase() === "email not confirmed") {
             //grab token//
-            const token = decodeURIComponent(window.location.search)
+            let token = decodeURIComponent(window.location.search)
               .substring(1)
               .split("confirmation_token=")[1];
-            this.handleConfirmation(token);
+            debugger;
+            if (token) {
+              this.handleConfirmation(token);
+            }
           } else {
             this.handleUnsuccessfulLogin(err);
           }
         });
     },
     handleConfirmation(token) {
-      if (token) {
-        const decodedToken = decodeURIComponent(token);
-        this.attemptConfirmation(decodedToken)
-          .then(() => {
-            this.login();
-          })
-          .catch(err => console.log(err));
-      }
+      this.attemptConfirmation(token)
+        .then(() => {
+          this.login();
+        })
+        .catch(err => console.log(err));
     },
     handleSuccessfulLogin() {
       this.transferToDashboard();
