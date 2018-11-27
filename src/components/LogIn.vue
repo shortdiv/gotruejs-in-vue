@@ -42,7 +42,7 @@ import { mapState, mapActions } from "vuex";
 import Notification from "./Notification";
 
 export default {
-  name: "LogIn",
+  name: "Login",
   components: {
     Notification
   },

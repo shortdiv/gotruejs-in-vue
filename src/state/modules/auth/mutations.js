@@ -1,11 +1,6 @@
-const LOGIN = state => {
-  state.loggedIn = true;
-  state.token = true;
-};
-
-const LOGOUT = state => {
-  state.loggedIn = false;
-  state.token = false;
+const SET_CURRENT_USER = (state, value) => {
+  state.currentUser = value;
+  saveState("auth.currentUser", value);
 };
 
 const TOGGLE_LOAD = state => {
@@ -26,9 +21,12 @@ const REMOVE_NOTIFICATION = (state, notification) => {
 
 export default {
   YAY,
-  LOGIN,
-  LOGOUT,
+  SET_CURRENT_USER,
   TOGGLE_LOAD,
   ADD_NOTIFICATION,
   REMOVE_NOTIFICATION
 };
+
+function saveState(key, state) {
+  window.localStorage.setItem(key, JSON.stringify(state));
+}
