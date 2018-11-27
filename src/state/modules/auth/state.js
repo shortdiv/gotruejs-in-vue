@@ -7,10 +7,15 @@ export const auth = new GoTrue({
 });
 
 const state = {
+  currentUser: getSavedState("auth.currentUser"),
   loading: false,
   loggedIn: false,
   token: null,
   notifications: []
 };
+
+function getSavedState(key) {
+  return JSON.parse(window.localStorage.getItem(key));
+}
 
 export default state;

@@ -9,7 +9,7 @@
 import { mapActions } from "vuex";
 
 export default {
-  name: "HelloWorld",
+  name: "Dashboard",
   props: {
     msg: String
   },

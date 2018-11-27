@@ -1,7 +1,14 @@
 import { auth } from "./state";
 
-const init = () => {
-  //
+const init = ({ dispatch }) => {
+  dispatch("validate");
+};
+
+const validate = ({ commit, state }) => {
+  if (!state.currentUser) return Promise.resolve(null);
+  const user = auth.currentUser();
+  commit("SET_CURRENT_USER", user);
+  return user;
 };
 
 const attemptLogin = ({ commit, dispatch }, credentials) => {
@@ -9,11 +16,8 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
     auth
       .login(credentials.email, credentials.password)
       .then(response => {
-        console.log(response);
+        commit("SET_CURRENT_USER", response);
         resolve("success");
-        //alert("Success! Response: " + JSON.stringify({ response }));
-        commit("LOGIN");
-        commit("TOGGLE_LOAD");
       })
       .catch(error => {
         if (
@@ -72,7 +76,7 @@ const attemptLogout = ({ commit }) => {
     .logout()
     .then(response => {
       console.log("user has logged out", response);
-      commit("LOGOUT");
+      commit("SET_CURRENT_USER", null);
     })
     .catch(error => console.log("Could not log out", error));
 };
@@ -87,6 +91,7 @@ const removeNotification = ({ commit }, notification) => {
 
 export default {
   init,
+  validate,
   attemptSignUp,
   attemptConfirmation,
   attemptLogin,
