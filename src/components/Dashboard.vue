@@ -14,18 +14,33 @@ export default {
     msg: String
   },
   methods: {
-    ...mapActions("auth", ["attemptLogout"]),
+    ...mapActions("auth", ["attemptLogout", "addNotification"]),
     logout() {
       this.attemptLogout()
         .then(() => {
-          this.addNotification({
-            title: "Logged Out",
-            text: "You have been successfully logged out.",
-            type: "success"
-          });
-          console.log("Logged Out!");
+          this.handleSuccessfulLogout();
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.handleUnsuccessfulLogout(err);
+        });
+    },
+    handleSuccessfulLogout() {
+      this.transferToLoginScreen();
+      this.addNotification({
+        title: "Logged Out",
+        text: "You have been successfully logged out.",
+        type: "success"
+      });
+    },
+    handleUnsuccessfulLogout(err) {
+      this.addNotification({
+        title: "Oops! Looks like something is wrong!",
+        text: err,
+        type: "fail"
+      });
+    },
+    transferToLoginScreen() {
+      this.$router.push(this.$route.query.redirect || "/login");
     }
   }
 };

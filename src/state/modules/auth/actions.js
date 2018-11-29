@@ -17,7 +17,7 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
       .login(credentials.email, credentials.password)
       .then(response => {
         commit("SET_CURRENT_USER", response);
-        resolve("success");
+        resolve(response);
       })
       .catch(error => {
         if (
@@ -37,7 +37,6 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
       .confirm(credentials.token)
       .then(response => {
         dispatch("attemptLogin", credentials);
-        resolve("yay");
         console.log(
           "Confirmation email sent",
           JSON.stringify({
@@ -45,6 +44,7 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
           })
         );
         commit("YAY");
+        resolve(response);
       })
       .catch(error => {
         reject(error);
@@ -58,10 +58,9 @@ const attemptSignUp = ({ commit }, credentials) => {
     auth
       .signup(credentials.email, credentials.password)
       .then(response => {
-        resolve("yay");
         console.log("Confirmation email sent", response);
-        commit("LOGIN");
         commit("TOGGLE_LOAD");
+        resolve(response);
       })
       .catch(error => {
         reject(error);
@@ -71,14 +70,20 @@ const attemptSignUp = ({ commit }, credentials) => {
 };
 
 const attemptLogout = ({ commit }) => {
-  const user = auth.currentUser();
-  return user
-    .logout()
-    .then(response => {
-      console.log("user has logged out", response);
-      commit("SET_CURRENT_USER", null);
-    })
-    .catch(error => console.log("Could not log out", error));
+  return new Promise((resolve, reject) => {
+    const user = auth.currentUser();
+    user
+      .logout()
+      .then(response => {
+        console.log(response);
+        resolve(response);
+        commit("SET_CURRENT_USER", null);
+      })
+      .catch(error => {
+        reject(error);
+        console.log("Could not log out", error);
+      });
+  });
 };
 
 const addNotification = ({ commit }, notification) => {
