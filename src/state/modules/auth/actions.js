@@ -13,20 +13,18 @@ const validate = ({ commit, state }) => {
 
 const attemptLogin = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
+    if (credentials.token) {
+      dispatch("attemptConfirmation", credentials);
+      return;
+    }
     auth
       .login(credentials.email, credentials.password)
       .then(response => {
-        commit("SET_CURRENT_USER", response);
         resolve(response);
+        commit("SET_CURRENT_USER", response);
       })
       .catch(error => {
-        if (
-          error.json.error_description.toLowerCase() === "email not confirmed"
-        ) {
-          dispatch("attemptConfirmation", credentials);
-        } else {
-          reject(error.json);
-        }
+        reject(error.json);
       });
   });
 };
@@ -36,6 +34,7 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
     auth
       .confirm(credentials.token)
       .then(response => {
+        credentials.token = null;
         dispatch("attemptLogin", credentials);
         console.log(
           "Confirmation email sent",

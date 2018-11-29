@@ -60,7 +60,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["notifications"])
+    ...mapState("auth", ["notifications", "currentUser"])
   },
   methods: {
     ...mapActions("auth", ["attemptLogin", "attemptSignUp", "addNotification"]),
@@ -84,6 +84,7 @@ export default {
       debugger;
       this.attemptLogin({ token, ...this.loginCreds })
         .then(() => {
+          debugger;
           this.handleSuccessfulLogin();
         })
         .catch(err => {
@@ -91,6 +92,7 @@ export default {
         });
     },
     handleSuccessfulLogin() {
+      debugger;
       this.transferToDashboard();
       this.addNotification({
         title: "Log In",
