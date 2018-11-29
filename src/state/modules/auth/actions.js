@@ -12,11 +12,11 @@ const validate = ({ commit, state }) => {
 };
 
 const attemptLogin = ({ commit, dispatch }, credentials) => {
+  if (credentials.token) {
+    dispatch("attemptConfirmation", credentials);
+    return;
+  }
   return new Promise((resolve, reject) => {
-    if (credentials.token) {
-      dispatch("attemptConfirmation", credentials);
-      return;
-    }
     auth
       .login(credentials.email, credentials.password)
       .then(response => {
