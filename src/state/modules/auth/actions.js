@@ -12,25 +12,26 @@ const validate = ({ commit, state }) => {
 };
 
 const attemptLogin = ({ commit, dispatch }, credentials) => {
-  if (credentials.token) {
-    dispatch("attemptConfirmation", credentials);
-    return;
-  }
   return new Promise((resolve, reject) => {
-    auth
-      .login(credentials.email, credentials.password)
-      .then(response => {
-        resolve(response);
-        commit("SET_CURRENT_USER", response);
-      })
-      .catch(error => {
-        reject(error.json);
-      });
+    dispatch("attemptConfirmation", credentials).then(() => {
+      auth
+        .login(credentials.email, credentials.password)
+        .then(response => {
+          resolve(response);
+          commit("SET_CURRENT_USER", response);
+        })
+        .catch(error => {
+          reject(error.json);
+        });
+    });
   });
 };
 
 const attemptConfirmation = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
+    if (!credentials.token) {
+      resolve();
+    }
     auth
       .confirm(credentials.token)
       .then(response => {
