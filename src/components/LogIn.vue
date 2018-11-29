@@ -81,10 +81,8 @@ export default {
       let token = decodeURIComponent(window.location.search)
         .substring(1)
         .split("confirmation_token=")[1];
-      debugger;
       this.attemptLogin({ token, ...this.loginCreds })
         .then(() => {
-          debugger;
           this.handleSuccessfulLogin();
         })
         .catch(err => {
@@ -92,7 +90,6 @@ export default {
         });
     },
     handleSuccessfulLogin() {
-      debugger;
       this.transferToDashboard();
       this.addNotification({
         title: "Log In",
