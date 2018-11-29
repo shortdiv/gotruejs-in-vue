@@ -1,5 +1,4 @@
 const loggedIn = state => {
-  debugger;
   return !!state.currentUser;
 };
 

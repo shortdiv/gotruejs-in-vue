@@ -31,6 +31,7 @@ const attemptConfirmation = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
     if (!credentials.token) {
       resolve();
+      return;
     }
     auth
       .confirm(credentials.token)
