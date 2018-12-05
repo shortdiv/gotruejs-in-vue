@@ -14,11 +14,6 @@ html,
 body {
   margin: 0;
   height: 100%;
-  background: url(./assets/backdrop.jpg) center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   font-family: "Raleway", sans-serif;
 }
 

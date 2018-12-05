@@ -167,6 +167,8 @@ export default {
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  background: url(../assets/backdrop.jpg) center center fixed;
+  background-size: cover;
 }
 
 .login-screen {
