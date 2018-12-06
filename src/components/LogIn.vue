@@ -1,5 +1,9 @@
 <template>
-  <div class="wrapper">
+  <div
+    class="wrapper"
+    ref="bg"
+    data-src="https://res.cloudinary.com/shortdiv/image/upload/v1544130544/backdrop-low.jpg"
+  >
     <div class="login-screen">
       <div class="chopsticks-logo">
         <div class="chopsticks-logo--img">
