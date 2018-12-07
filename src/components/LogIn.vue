@@ -270,7 +270,7 @@ input {
   cursor: pointer;
   border: none;
   background-color: transparent;
-  color: #d3d3d8;
+  color: #949494;
   position: absolute;
   top: 50%;
   right: 10px;
