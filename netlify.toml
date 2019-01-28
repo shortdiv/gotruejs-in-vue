@@ -1,0 +1,4 @@
+[build]
+  command = "yarn run build"
+  publish = "dist"
+  NODE_ENV = "8.11.3"
