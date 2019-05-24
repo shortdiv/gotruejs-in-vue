@@ -1,4 +1,10 @@
+# example netlify.toml
 [build]
-  command = "yarn build"
-  functions = "lambda"
-  publish = "dist"
+  command = "yarn run build"
+  functions="functions-build"
+  functionsSource="functions"
+  publish = "./dist"
+
+[dev]
+  functions="functions"
+  publish="public"
