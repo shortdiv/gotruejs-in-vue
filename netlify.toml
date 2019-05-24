@@ -1,8 +1,7 @@
 # example netlify.toml
 [build]
   command = "yarn run build"
-  functions="functions-build"
-  functionsSource="functions"
+  functions="functions"
   publish = "./dist"
 
 [dev]
