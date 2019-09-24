@@ -59,11 +59,11 @@ export default {
   color: #64b587;
   &:after {
     content: "";
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
-    top: 20%;
+    height: 10%;
     background-color: green;
     -webkit-transform: translate(-100%);
     transform: translate(-100%);
