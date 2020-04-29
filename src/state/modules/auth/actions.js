@@ -15,7 +15,7 @@ const attemptLogin = ({ commit, dispatch }, credentials) => {
   return new Promise((resolve, reject) => {
     dispatch("attemptConfirmation", credentials).then(() => {
       auth
-        .login(credentials.email, credentials.password)
+        .login(credentials.email, credentials.password, true)
         .then(response => {
           resolve(response);
           commit("SET_CURRENT_USER", response);
